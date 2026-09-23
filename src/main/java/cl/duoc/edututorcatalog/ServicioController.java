@@ -29,10 +29,18 @@ public class ServicioController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public Servicio crear(@Valid @RequestBody CrearServicioRequest req) {
 		Servicio servicio = new Servicio(req.asignatura(), req.tutor(), req.bloqueHorario(), req.cupoTotal());
+		servicio.setDescripcion(req.descripcion());
+		servicio.setCategoria(req.categoria());
+		if (req.precioHora() != null) {
+			servicio.setPrecioHora(req.precioHora());
+		}
+		if (req.duracionMinutos() != null) {
+			servicio.setDuracionMinutos(req.duracionMinutos());
+		}
 		return repository.save(servicio);
 	}
 
-	// PUT /api/catalog/services/{id} (cupo/bloque)
+	// PUT /api/catalog/services/{id} (cupo/bloque/comercial)
 	@PutMapping("/{id}")
 	public Servicio actualizar(@PathVariable Long id, @Valid @RequestBody ActualizarServicioRequest req) {
 		Servicio servicio = repository.findById(id)
@@ -44,12 +52,29 @@ public class ServicioController {
 		if (req.cupoDisponible() != null) {
 			servicio.setCupoDisponible(req.cupoDisponible());
 		}
+		if (req.descripcion() != null) {
+			servicio.setDescripcion(req.descripcion());
+		}
+		if (req.categoria() != null) {
+			servicio.setCategoria(req.categoria());
+		}
+		if (req.precioHora() != null) {
+			servicio.setPrecioHora(req.precioHora());
+		}
+		if (req.duracionMinutos() != null) {
+			servicio.setDuracionMinutos(req.duracionMinutos());
+		}
+		if (req.estado() != null) {
+			servicio.setEstado(req.estado());
+		}
 		return repository.save(servicio);
 	}
 
-	public record CrearServicioRequest(String asignatura, String tutor, String bloqueHorario, int cupoTotal) {
+	public record CrearServicioRequest(String asignatura, String tutor, String bloqueHorario, int cupoTotal,
+			String descripcion, String categoria, Double precioHora, Integer duracionMinutos) {
 	}
 
-	public record ActualizarServicioRequest(String bloqueHorario, Integer cupoDisponible) {
+	public record ActualizarServicioRequest(String bloqueHorario, Integer cupoDisponible, String descripcion,
+			String categoria, Double precioHora, Integer duracionMinutos, EstadoServicio estado) {
 	}
 }

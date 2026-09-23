@@ -1,6 +1,8 @@
 package cl.duoc.edututorcatalog;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -30,6 +32,21 @@ public class Servicio {
 
 	@Min(0)
 	private int cupoDisponible;
+
+	// Complementarios al modelo original de cupos: el frontend oficial los
+	// necesita para el catálogo comercial (precio, categoría, descripción).
+	private String descripcion;
+
+	private String categoria;
+
+	@Min(0)
+	private double precioHora;
+
+	@Min(0)
+	private int duracionMinutos = 60;
+
+	@Enumerated(EnumType.STRING)
+	private EstadoServicio estado = EstadoServicio.ACTIVO;
 
 	// Bloqueo optimista: evita que dos coordinadores confirmen el mismo
 	// último cupo a la vez (lost update en escrituras concurrentes).
@@ -93,5 +110,45 @@ public class Servicio {
 
 	public long getVersion() {
 		return version;
+	}
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
+	public String getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(String categoria) {
+		this.categoria = categoria;
+	}
+
+	public double getPrecioHora() {
+		return precioHora;
+	}
+
+	public void setPrecioHora(double precioHora) {
+		this.precioHora = precioHora;
+	}
+
+	public int getDuracionMinutos() {
+		return duracionMinutos;
+	}
+
+	public void setDuracionMinutos(int duracionMinutos) {
+		this.duracionMinutos = duracionMinutos;
+	}
+
+	public EstadoServicio getEstado() {
+		return estado;
+	}
+
+	public void setEstado(EstadoServicio estado) {
+		this.estado = estado;
 	}
 }
