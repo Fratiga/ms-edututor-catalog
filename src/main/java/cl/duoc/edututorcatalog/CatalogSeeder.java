@@ -3,12 +3,14 @@ package cl.duoc.edututorcatalog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 // Sin esto, un Estudiante recién agrega el sistema y no tiene nada que ver ni
 // agendar: solo corre si la tabla está vacía, así que no duplica datos en
 // reinicios normales (solo aplica en un volumen de Oracle realmente nuevo).
 @Component
+@Order(10)
 public class CatalogSeeder implements CommandLineRunner {
 
 	private static final Logger log = LoggerFactory.getLogger(CatalogSeeder.class);
